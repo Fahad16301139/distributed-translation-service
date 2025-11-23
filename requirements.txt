@@ -14,7 +14,7 @@ motor==3.3.2
 
 # Translation
 transformers==4.36.2
-torch==2.1.2
+torch==2.5.1
 sentencepiece==0.1.99
 sacremoses==0.1.1
 
