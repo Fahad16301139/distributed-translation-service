@@ -1,0 +1,44 @@
+services:
+  - type: web
+    name: text-ingestion
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: python services/text_ingestion_service.py
+    envVars:
+      - key: JWT_SECRET_KEY
+        generateValue: true
+      - key: TEXT_INGESTION_PORT
+        value: 10000
+      - key: LOG_LEVEL
+        value: INFO
+    
+  - type: worker
+    name: translation-service
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: python services/translation_service.py
+    envVars:
+      - key: LOG_LEVEL
+        value: INFO
+    
+  - type: web
+    name: feedback-service
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: python services/feedback_service.py
+    envVars:
+      - key: JWT_SECRET_KEY
+        sync: false
+      - key: FEEDBACK_SERVICE_PORT
+        value: 10000
+      - key: LOG_LEVEL
+        value: INFO
+
+databases:
+  - name: translation-redis
+    plan: free
+    
+  - name: translation-mongodb
+    plan: free
+
+
